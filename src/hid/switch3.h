@@ -20,16 +20,16 @@ class Switch3
     Switch3() {}
     ~Switch3() {}
 
-    void Init(dsy_gpio_pin pina, dsy_gpio_pin pinb)
+    void Init(dsy_gpio_pin pina, dsy_gpio_pin pinb, bool pullup = true)
     {
         pina_gpio_.pin  = pina;
         pina_gpio_.mode = DSY_GPIO_MODE_INPUT;
-        pina_gpio_.pull = DSY_GPIO_PULLUP;
+        pina_gpio_.pull = pullup ? DSY_GPIO_PULLUP : DSY_GPIO_NOPULL;
         dsy_gpio_init(&pina_gpio_);
 
         pinb_gpio_.pin  = pinb;
         pinb_gpio_.mode = DSY_GPIO_MODE_INPUT;
-        pinb_gpio_.pull = DSY_GPIO_PULLUP;
+        pinb_gpio_.pull = pullup ? DSY_GPIO_PULLUP : DSY_GPIO_NOPULL;
         dsy_gpio_init(&pinb_gpio_);
     }
 
