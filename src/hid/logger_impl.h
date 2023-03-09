@@ -115,7 +115,8 @@ class LoggerImpl<LOGGER_SEMIHOST>
      */
     static bool Transmit(const void* buffer, size_t bytes)
     {
-        write(STDOUT_FILENO, buffer, bytes);
+        if(System::IsDebuggerAttached())
+            write(STDOUT_FILENO, buffer, bytes);
         return true;
     }
 };
