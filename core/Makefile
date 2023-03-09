@@ -121,6 +121,10 @@ ifdef DEBUG
 C_DEFS += -DDEBUG
 endif
 
+ifdef SEMIHOSTING
+C_DEFS += -DSEMIHOSTING
+endif
+
 # AS includes
 AS_INCLUDES =
 
@@ -246,8 +250,16 @@ LIBS += -ldaisysp
 LIBDIR += -L $(DAISYSP_DIR)/build
 endif
 
+ifdef SEMIHOSTING
+LIBS += -lrdimon
+endif
+
 LDFLAGS ?=
 LDFLAGS += $(MCU) --specs=nano.specs --specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections -Wl,--print-memory-usage
+
+ifdef SEMIHOSTING
+LDFLAGS += --specs=rdimon.specs
+endif
 
 # default action: build all
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
