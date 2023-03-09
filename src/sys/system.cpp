@@ -537,6 +537,10 @@ System::MemoryRegion System::GetMemoryRegion(uint32_t addr)
     return MemoryRegion::INVALID_ADDRESS;
 }
 
+bool System::IsDebuggerAttached()
+{
+    return CoreDebug->DHCSR & CoreDebug_DHCSR_C_DEBUGEN_Msk;
+}
 
 } // namespace daisy
 
