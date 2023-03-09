@@ -10,5 +10,6 @@ extern "C" void initialise_monitor_handles(void);
 
 void daisy::LoggerImpl<LOGGER_SEMIHOST>::Init()
 {
-    initialise_monitor_handles();
+    if (System::IsDebuggerAttached())
+        initialise_monitor_handles();
 }
