@@ -121,7 +121,7 @@ ifdef DEBUG
 C_DEFS += -DDEBUG
 endif
 
-ifdef SEMIHOSTING
+ifeq ($(SEMIHOSTING), 1)
 C_DEFS += -DSEMIHOSTING
 endif
 
@@ -250,14 +250,14 @@ LIBS += -ldaisysp
 LIBDIR += -L $(DAISYSP_DIR)/build
 endif
 
-ifdef SEMIHOSTING
+ifeq ($(SEMIHOSTING), 1)
 LIBS += -lrdimon
 endif
 
 LDFLAGS ?=
 LDFLAGS += $(MCU) --specs=nano.specs --specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections -Wl,--print-memory-usage
 
-ifdef SEMIHOSTING
+ifeq ($(SEMIHOSTING), 1)
 LDFLAGS += --specs=rdimon.specs
 endif
 

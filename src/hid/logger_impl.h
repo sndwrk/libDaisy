@@ -109,7 +109,7 @@ class LoggerImpl<LOGGER_SEMIHOST>
   public:
     /** Initialize logging destination
      */
-    static void Init() {}
+    static void Init();
 
     /** Transmit a block of data
      */

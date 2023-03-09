@@ -41,6 +41,7 @@ hid/ctrl \
 hid/encoder \
 hid/gatein \
 hid/led \
+hid/logger_impl \
 hid/parameter \
 hid/rgb_led \
 hid/switch \
