@@ -126,7 +126,7 @@ class PersistentStorage
   private:
     static constexpr size_t kMaxSlugLen = 32;
 
-    static_assert(strlen(Slug) < kMaxSlugLen, "Slug for PersistentStorage too long");
+    static_assert(strlen(Slug) < kMaxSlugLen - 1, "Slug for PersistentStorage too long");
 
     struct SaveStruct
     {
