@@ -336,8 +336,11 @@ else
 C_DEFS += -DNDEBUG=1 -DRELEASE=1
 endif
 
+C_USR_FLAGS ?=
+
 CFLAGS += \
--finline-functions
+-finline-functions \
+$(C_USR_FLAGS)
 
 # C++ Flags
 CPPFLAGS = $(CFLAGS) $(CPP_WARNINGS)

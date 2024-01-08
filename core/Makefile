@@ -182,7 +182,9 @@ ifeq ($(DEBUG), 1)
 ASFLAGS += -g -ggdb
 endif
 
-CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -Wno-missing-attributes -fasm -fdata-sections -ffunction-sections -Wno-stringop-overflow
+C_USR_FLAGS ?=
+CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -Wno-missing-attributes -fasm -fdata-sections -ffunction-sections -Wno-stringop-overflow $(C_USR_FLAGS)
+
 CFLAGS += -g -ggdb
 
 # Generate dependency information
