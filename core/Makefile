@@ -289,8 +289,12 @@ all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET
 # list of objects
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
-OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(CPP_SOURCES:.cpp=.o)))
-vpath %.cpp $(sort $(dir $(CPP_SOURCES)))
+CPP_SOURCES_CPP = $(filter %.cpp, $(CPP_SOURCES))
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(CPP_SOURCES_CPP:.cpp=.o)))
+vpath %.cpp $(sort $(dir $(CPP_SOURCES_CPP)))
+CPP_SOURCES_CC = $(filter %.cc, $(CPP_SOURCES))
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(CPP_SOURCES_CC:.cc=.o)))
+vpath %.cc $(sort $(dir $(CPP_SOURCES_CC)))
 # list of ASM program objects
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
@@ -300,6 +304,9 @@ $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR)
 
 $(BUILD_DIR)/%.o: %.cpp Makefile | $(BUILD_DIR)
 	$(CXX) -c $(CPPFLAGS) $(CPP_STANDARD) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cpp=.lst)) $< -o $@
+
+$(BUILD_DIR)/%.o: %.cc Makefile | $(BUILD_DIR)
+	$(CXX) -c $(CPPFLAGS) $(CPP_STANDARD) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cc=.lst)) $< -o $@
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
 	$(AS) -c $(ASFLAGS) $< -o $@
