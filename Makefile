@@ -31,6 +31,7 @@ daisy_legio \
 daisy_patch_sm \
 sys/fatfs \
 sys/system \
+dev/sr_165 \
 dev/sr_595 \
 dev/codec_ak4556 \
 dev/codec_pcm3060 \
