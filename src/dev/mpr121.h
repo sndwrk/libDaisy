@@ -9,8 +9,8 @@
 
 namespace daisy
 {
-/** @addtogroup external 
-    @{ 
+/** @addtogroup external
+    @{
 */
 
 /** I2C Transport for MPR121 */
@@ -96,10 +96,17 @@ class Mpr121
         uint8_t                    touch_threshold;
         uint8_t                    release_threshold;
 
+        // Configuration register values - don't change defaults
+        // if you don't know what these do
+        uint8_t config1;
+        uint8_t config2;
+
         Config()
         {
             touch_threshold   = MPR121_TOUCH_THRESHOLD_DEFAULT;
             release_threshold = MPR121_RELEASE_THRESHOLD_DEFAULT;
+            config1           = 0x10;
+            config2           = 0x20;
         }
     };
 
@@ -146,8 +153,10 @@ class Mpr121
         WriteRegister(MPR121_FDLT, 0x00);
 
         WriteRegister(MPR121_DEBOUNCE, 0);
-        WriteRegister(MPR121_CONFIG1, 0x10); // default, 16uA charge current
-        WriteRegister(MPR121_CONFIG2, 0x20); // 0.5uS encoding, 1ms period
+        WriteRegister(MPR121_CONFIG1,
+                      config.config1); // default, 16uA charge current
+        WriteRegister(MPR121_CONFIG2,
+                      config.config2); // 0.5uS encoding, 1ms period
 
         // autoconfig
         // WriteRegister(MPR121_AUTOCONFIG0, 0x0B);
