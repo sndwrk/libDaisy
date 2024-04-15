@@ -95,6 +95,7 @@ class Mpr121
         typename Transport::Config transport_config;
         uint8_t                    touch_threshold;
         uint8_t                    release_threshold;
+        uint8_t                    num_electrodes;
 
         // Configuration register values - don't change defaults
         // if you don't know what these do
@@ -105,6 +106,7 @@ class Mpr121
         {
             touch_threshold   = MPR121_TOUCH_THRESHOLD_DEFAULT;
             release_threshold = MPR121_RELEASE_THRESHOLD_DEFAULT;
+            num_electrodes    = 12;
             config1           = 0x10;
             config2           = 0x20;
         }
@@ -121,6 +123,9 @@ class Mpr121
     */
     Result Init(Config config)
     {
+        if(config.num_electrodes > 12)
+            config.num_electrodes = 12;
+
         config_ = config;
 
         SetTransportErr(transport_.Init(config_.transport_config));
@@ -168,10 +173,10 @@ class Mpr121
         // autoconfig
 
         // enable X electrodes and start MPR121
-        uint8_t ECR_SETTING
-            = 0x80
-              + 12; // 5 bits for baseline tracking & proximity disabled + X
-                    // amount of electrodes running (12)
+        // 5 bits for baseline tracking & proximity disabled + X
+        // amount of electrodes running
+        uint8_t ECR_SETTING = 0x80 + config.num_electrodes;
+
         WriteRegister(MPR121_ECR,
                       ECR_SETTING); // start with above ECR setting
 
@@ -203,7 +208,7 @@ class Mpr121
     */
     uint16_t FilteredData(uint8_t t)
     {
-        if(t > 12)
+        if(t > config_.num_electrodes)
             return 0;
         return ReadRegister16(MPR121_FILTDATA_0L + t * 2);
     }
@@ -216,7 +221,7 @@ class Mpr121
     */
     uint16_t BaselineData(uint8_t t)
     {
-        if(t > 12)
+        if(t > config_.num_electrodes)
             return 0;
         uint16_t bl = ReadRegister8(MPR121_BASELINE_0 + t);
         return (bl << 2);
