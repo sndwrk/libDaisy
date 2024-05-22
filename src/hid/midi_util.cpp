@@ -50,6 +50,17 @@ MidiTxMessage MidiTxMessage::PitchBend(uint8_t ch, int16_t bend)
     return msg;
 }
 
+MidiTxMessage MidiTxMessage::ChannelPressure(uint8_t ch, uint8_t press)
+{
+    MidiTxMessage msg;
+    msg.size = 2;
+    // status byte
+    msg.data[0] = 0xD0 | (ch & 0x0F);
+    // value
+    msg.data[1] = press & 0x7F;
+    return msg;
+}
+
 MidiTxMessage MidiTxMessage::SystemRealtimeClock()
 {
     MidiTxMessage msg;
